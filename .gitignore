@@ -1,0 +1,6 @@
+*.[oa]
+bin
+obj
+Properties
+*.sln
+*.suo
