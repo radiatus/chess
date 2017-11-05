@@ -1,4 +1,4 @@
-Project - Chessыыыы
+Project - Chess
 Author - Borisov, Chulkov, Nikonov
 
 Необходимо разработать программу для игры с компьютером в шахматы.
