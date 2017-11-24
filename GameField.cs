@@ -8,39 +8,22 @@ namespace chess
 {
     class GameField
     {
-        private Figure[,] figures;
+        private GameData figures;
         private int size;
         private int indentX;
         private int indentY;
-        private int cellSize;        
+        private int cellSize;
         private int activeFigureRow;
         private int activeFigureCol;
         private List<Point> highlightPoints;
 
-        public Figure this[int row, int col, bool nonCell = false] //nonCell - значит фактические координаты, а не от 0 до 7
+        public GameField(GameData data, int width, int height)
         {
-            get
-            {
-                if (nonCell)
-                {
-                    Point p = getCord(row, col);
-                    return figures[p.X, p.Y];
-                }
-                else
-                {
-                    return figures[row, col];
-                }
-            } //добавить условия
-            set { }
-        }
-
-        public GameField(int width, int height)
-        {
-            InitFigures();
             Resize(width, height);
+            this.figures = data;
         }
 
-        public void Draw(Graphics canvas ) // здесь хорошо бы сделать перечисление
+        public void Draw(Graphics canvas)
         {
             DrawField(canvas, cellSize, indentX, indentY);
             DrawFigures(canvas, cellSize, indentX, indentY);
@@ -66,7 +49,11 @@ namespace chess
             indentY = (size % 8 / 2) + (height - size);
             cellSize = size / 8;
         }
-
+        public void ActivateFigure(Point ColAndRow)
+        {
+            ActivateFigure(ColAndRow.X, ColAndRow.Y);         
+        }
+        
         public void ActivateFigure(int col, int row)
         {
             if (highlightPoints != null)
@@ -77,18 +64,9 @@ namespace chess
                 highlightPoints.Add(new Point(col, row));
             }
         }
-
-        private void InitFigures()
+        public void DisActivate()
         {
-            figures = new Figure[8, 8];
-
-            for (int i = 0; i < 8; i++)
-            {
-                figures[1, i] = new FigurePawn(false, this, 1, i);
-                figures[6, i] = new FigurePawn(true, this, 6, i);
-                figures[2, 2] = new FigurePawn(true, this, 2, 2);
-            }
-
+            highlightPoints = null;
         }
 
         private void DrawField(Graphics canvas, int cellSize, int indentX, int indentY)

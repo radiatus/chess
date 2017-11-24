@@ -12,7 +12,7 @@ namespace chess
     public partial class GameControlForm : Form
     {
 
-        GameField myField;
+        Game myGame;
         public GameControlForm()
         {
             InitializeComponent();
@@ -20,31 +20,32 @@ namespace chess
 
         private void button1_Click(object sender, EventArgs e)
         {
-            myField = new GameField(pictureBox1.Width, pictureBox1.Height);
+            myGame = ChessFabrik.TwoPlayersGame(pictureBox1.Width, pictureBox1.Height);
             pictureBox1.Refresh();
         }
 
         private void pictureBox1_Paint(object sender, PaintEventArgs e)
         {
-            if (myField != null)
-                myField.Draw(e.Graphics);
+            if (myGame != null)
+            {
+                myGame.Draw(e.Graphics);
+                label1.Text = myGame.getSomeStuff();
+            }
         }
 
         private void pictureBox1_Resize(object sender, EventArgs e)
         {
-            if (myField != null)
+            if (myGame != null)
             {
-                myField.Resize(pictureBox1.Width, pictureBox1.Height);
+                myGame.ResizeField(pictureBox1.Width, pictureBox1.Height);
             }
         }
 
         private void pictureBox1_MouseClick(object sender, MouseEventArgs e)
         {
-            if (myField != null)
+            if (myGame != null)
             {
-                Point p = myField.getCord(e.X, e.Y);
-                myField.ActivateFigure(p.X, p.Y);
-
+                myGame.Click(e.X, e.Y);
                 pictureBox1.Refresh();
             }
         }

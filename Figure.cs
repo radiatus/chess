@@ -9,11 +9,11 @@ namespace chess
     abstract class Figure
     {
         public bool white;
-        protected GameField field;
+        protected GameData field;
         protected int row;
         protected int col;
 
-        public Figure(bool isWhite, GameField field, int row, int col)
+        public Figure(bool isWhite, GameData field, int row, int col)
         {
             white = isWhite;
             this.field = field;
@@ -23,11 +23,16 @@ namespace chess
 
         public abstract Bitmap GetSprite();
         public abstract List<Point> GetPosibleSteps();
+        public void moveTo(int row, int col)
+        {
+            this.row = row;
+            this.col = col;
+        }
     }
 
     class FigurePawn : Figure //пешка
     {
-        public FigurePawn(bool isWhite, GameField field, int row, int col)
+        public FigurePawn(bool isWhite, GameData field, int row, int col)
             : base(isWhite, field, row, col)
         {
 
@@ -63,7 +68,7 @@ namespace chess
     
     class FigureRook : Figure //Ладья
     {
-        public FigureRook(bool isWhite, GameField field, int row, int col)
+        public FigureRook(bool isWhite, GameData field, int row, int col)
             : base(isWhite, field, row, col)
         {
 
@@ -83,7 +88,7 @@ namespace chess
 
     class FigureQueen : Figure //Ферзь
     {
-        public FigureQueen(bool isWhite, GameField field, int row, int col)
+        public FigureQueen(bool isWhite, GameData field, int row, int col)
             : base(isWhite, field, row, col)
         {
 
@@ -102,7 +107,7 @@ namespace chess
 
     class FigureKnight : Figure //Конь
     {
-        public FigureKnight(bool isWhite, GameField field, int row, int col)
+        public FigureKnight(bool isWhite, GameData field, int row, int col)
             : base(isWhite, field, row, col)
         {
 
@@ -121,7 +126,7 @@ namespace chess
 
     class FigureKing : Figure //Король
     {
-        public FigureKing(bool isWhite, GameField field, int row, int col)
+        public FigureKing(bool isWhite, GameData field, int row, int col)
             : base(isWhite, field, row, col)
         {
 
@@ -140,7 +145,7 @@ namespace chess
 
     class FigureBishop : Figure //Слон
     {
-        public FigureBishop(bool isWhite, GameField field, int row, int col)
+        public FigureBishop(bool isWhite, GameData field, int row, int col)
             : base(isWhite, field, row, col)
         {
 

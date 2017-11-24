@@ -46,7 +46,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ChessData.cs" />
+    <Compile Include="ChessFabrik.cs" />
     <Compile Include="FigureForm.cs" />
+    <Compile Include="FormControl.cs" />
     <Compile Include="Game.cs" />
     <Compile Include="GameField.cs" />
     <Compile Include="GameControlForm.cs">
