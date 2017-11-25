@@ -6,33 +6,34 @@ using System.Drawing;
 
 namespace chess
 {
-    class GameField
+    class GameField //система визуализации
     {
-        private GameData figures;
+        
+        private GameData figures; // все фигурки
         private int size;
         private int indentX;
         private int indentY;
         private int cellSize;
         private int activeFigureRow;
         private int activeFigureCol;
-        private List<Point> highlightPoints;
+        private List<Point> highlightPoints; //список фигурок кторые надо подсветить
 
         public GameField(GameData data, int width, int height)
         {
-            Resize(width, height);
+            Resize(width, height); 
             this.figures = data;
         }
 
         public void Draw(Graphics canvas)
         {
-            DrawField(canvas, cellSize, indentX, indentY);
-            DrawFigures(canvas, cellSize, indentX, indentY);
+            DrawField(canvas, cellSize, indentX, indentY); //рисуем само поле
+            DrawFigures(canvas, cellSize, indentX, indentY); //рисуем все фигурки на нем
 
             if (highlightPoints != null)
-                DrawHighLights(canvas);
+                DrawHighLights(canvas); //рисуем подсвеченые клетки
         }
 
-        public Point getCord(int x, int y)
+        public Point getCord(int x, int y) // возвращает строку и столбец, получая реальные координаты
         {
             int col = (x - indentX) / cellSize;
             int row = (y - indentY) / cellSize;
@@ -40,21 +41,21 @@ namespace chess
             return new Point(col, row);
         }
 
-        public void Resize(int width, int height)
+        public void Resize(int width, int height) //изменяем размер поля
         {
             size = Math.Min(width, height);
-            size = size - (size % 8); //размер должен быть кратен 
+            size = size - (size % 8); //размер должен быть кратен 8
 
             indentX = (size % 8 / 2) + (width - size);
             indentY = (size % 8 / 2) + (height - size);
             cellSize = size / 8;
         }
-        public void ActivateFigure(Point ColAndRow)
+        public void ActivateFigure(Point ColAndRow) //перегрузочка
         {
             ActivateFigure(ColAndRow.X, ColAndRow.Y);         
         }
         
-        public void ActivateFigure(int col, int row)
+        public void ActivateFigure(int col, int row) //подсвечиваем фигурку и возможные ходы
         {
             if (highlightPoints != null)
                 highlightPoints.Clear();
@@ -64,12 +65,12 @@ namespace chess
                 highlightPoints.Add(new Point(col, row));
             }
         }
-        public void DisActivate()
+        public void DisActivate() //перестаем подсвечивать
         {
             highlightPoints = null;
         }
 
-        private void DrawField(Graphics canvas, int cellSize, int indentX, int indentY)
+        private void DrawField(Graphics canvas, int cellSize, int indentX, int indentY) //рисуем само поле
         {
             Brush black = new SolidBrush(Color.Brown); //Chocolate
             Brush white = new SolidBrush(Color.Gold);
@@ -81,7 +82,7 @@ namespace chess
 
         }
 
-        private void DrawFigures(Graphics canvas, int cellSize, int indentX, int indentY)
+        private void DrawFigures(Graphics canvas, int cellSize, int indentX, int indentY) //рисуем все фигурки на нем
         {
             for (int row = 0; row < 8; row++)
             {
@@ -96,7 +97,7 @@ namespace chess
             }
         }
 
-        private void DrawHighLights(Graphics canvas)
+        private void DrawHighLights(Graphics canvas) //рисуем подсвеченые клетки
         {
             Pen pen = new Pen(Color.Blue, 5);
             int row;

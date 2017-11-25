@@ -5,7 +5,7 @@ using System.Text;
 
 namespace chess
 {
-    abstract class Player
+    abstract class Player //Абстрактный класс игрока, может быть как реальным так и компьютером
     {       
         protected bool isWhite;
         protected bool myTurn;
@@ -17,9 +17,8 @@ namespace chess
         {
             this.data = data;
             this.isWhite = isWhite;
-            //this.moveMade += moveFunc;
         }
-        abstract public void setMoveFunc(MoveDelegate moveFunc);
-        abstract public void getMoveComand();
+        abstract public void setMoveFunc(MoveDelegate moveFunc); //для привязывания функции к событию
+        abstract public void getMoveComand(); //для получения события о том, что настало время ходить
     }
 }

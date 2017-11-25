@@ -6,7 +6,7 @@ using System.Drawing;
 
 namespace chess
 {
-    class FormControl : Player
+    class FormControl : Player // Реальный игрок
     {
         private int fromX;
         private int fromY;
@@ -21,22 +21,22 @@ namespace chess
         }
         public override void setMoveFunc(MoveDelegate moveFunc)
         {
-            moveMade = moveFunc;
+            moveMade = moveFunc; //привязываем функцию к сигналу
         }
 
         override public void getMoveComand()
         {
-            myTurn = true;
+            myTurn = true; //пришел сигнал что ход наш
         }
 
-        public void Move(int row, int col)
+        public void Move(int row, int col) //клик по полю
         {
-            if (!myTurn)
+            if (!myTurn) //ничего не делаем, если не наш ход
                 return;
 
-            if (figureChosen)
+            if (figureChosen) //если фигурка уже выбрана
             {                
-                if(data[row, col] != null && data[row, col].white == isWhite)
+                if(data[row, col] != null && data[row, col].white == isWhite) //клик по другой своей фигурке, выбираем ее
                 {
                     figureChosen = true;
                     fromX = col;
@@ -44,8 +44,8 @@ namespace chess
                     return;
                 }
 
-                List<Point> stepList = data[fromY, fromX].GetPosibleSteps();
-
+                //проверка на корректность хода
+                List<Point> stepList = data[fromY, fromX].GetPosibleSteps();                
                 bool stepCorrect = false;
                 for (int stepInd = 0; stepInd < stepList.Count; stepInd++)
                     if (stepList[stepInd].X == col && stepList[stepInd].Y == row)
@@ -57,12 +57,12 @@ namespace chess
                 if (stepCorrect)
                 {
                     myTurn = false;
-                    moveMade(fromX, fromY, col, row);
+                    moveMade(fromX, fromY, col, row); //отправляем сигнал, что ход сделан
                 }
 
                 figureChosen = false;
             }
-            else
+            else //выбираем фигурку, на которую мы кликнули
             {
                 if (data[row, col] != null && data[row, col].white == isWhite)
                 {

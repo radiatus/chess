@@ -20,7 +20,7 @@ namespace chess
 
         private void button1_Click(object sender, EventArgs e)
         {
-            myGame = ChessFabrik.TwoPlayersGame(pictureBox1.Width, pictureBox1.Height);
+            myGame = ChessFabrik.TwoPlayersGame(pictureBox1.Width, pictureBox1.Height); //создаем новую игру
             pictureBox1.Refresh();
         }
 
@@ -28,8 +28,8 @@ namespace chess
         {
             if (myGame != null)
             {
-                myGame.Draw(e.Graphics);
-                label1.Text = myGame.getSomeStuff();
+                myGame.Draw(e.Graphics); // рисуем все поле
+                label1.Text = myGame.getSomeStuff(); // получаем некторую инфу об игре
             }
         }
 
@@ -37,7 +37,7 @@ namespace chess
         {
             if (myGame != null)
             {
-                myGame.ResizeField(pictureBox1.Width, pictureBox1.Height);
+                myGame.ResizeField(pictureBox1.Width, pictureBox1.Height); // изменяем размер поля
             }
         }
 
@@ -45,7 +45,7 @@ namespace chess
         {
             if (myGame != null)
             {
-                myGame.Click(e.X, e.Y);
+                myGame.Click(e.X, e.Y); //клик по полю
                 pictureBox1.Refresh();
             }
         }

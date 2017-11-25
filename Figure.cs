@@ -6,7 +6,7 @@ using System.Drawing;
 
 namespace chess
 {
-    abstract class Figure
+    abstract class Figure //Абстрактная фигурка
     {
         public bool white;
         protected GameData field;
@@ -21,9 +21,9 @@ namespace chess
             this.col = col;
         }
 
-        public abstract Bitmap GetSprite();
-        public abstract List<Point> GetPosibleSteps();
-        public void moveTo(int row, int col)
+        public abstract Bitmap GetSprite(); //дает спрайт фигурки
+        public abstract List<Point> GetPosibleSteps(); //список клеток, в которые можно сделать ход
+        public void moveTo(int row, int col) //перемещение фигурки в новую точку, не контролируется фигуркой
         {
             this.row = row;
             this.col = col;

@@ -5,11 +5,11 @@ using System.Text;
 
 namespace chess
 {
-    class GameData
+    class GameData //Вся информация о поле
     {
-        private Figure[,] figures;
-        private List<Figure> whiteDead;
-        private List<Figure> blackDead;
+        private Figure[,] figures; //массив фигурок
+        private List<Figure> whiteDead; //список мертвых БЕЛЫХ фигурок
+        private List<Figure> blackDead; //список мертвых ЧЕРНЫХ фигурок
 
 
         public Figure this[int row, int col]
@@ -40,9 +40,10 @@ namespace chess
         public GameData()
         {
             InitFigures();
+            // позже добавим возможность чтения из файла, передавая путь
         }
 
-        private void InitFigures()
+        private void InitFigures() //стандартная инициализация
         {
             figures = new Figure[8, 8];
 
