@@ -16,7 +16,7 @@ namespace chess
         {
             get
             {
-                if (row < 0 || row >= 8 && col < 0 && col >= 8)
+                if (row < 0 || row >= 8 || col < 0 || col >= 8)
                     return null;
 
                 return figures[row, col];
@@ -24,7 +24,7 @@ namespace chess
             } //добавить условия
             set
             {
-                if (row < 0 || row >= 8 && col < 0 && col >= 8)
+                if (row < 0 || row >= 8 || col < 0 || col >= 8)
                     return;
                 figures[row, col] = value;
                 //if (figures[row, col] != null)// Сделать тут проверку на убийство?

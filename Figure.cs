@@ -23,7 +23,7 @@ namespace chess
 
         public abstract Bitmap GetSprite(); //дает спрайт фигурки
         public abstract List<Point> GetPosibleSteps(); //список клеток, в которые можно сделать ход
-        public void moveTo(int row, int col) //перемещение фигурки в новую точку, не контролируется фигуркой
+        public virtual void moveTo(int row, int col) //перемещение фигурки в новую точку, не контролируется фигуркой
         {
             this.row = row;
             this.col = col;
@@ -32,10 +32,12 @@ namespace chess
 
     class FigurePawn : Figure //пешка
     {
+        private bool firstStep;
+
         public FigurePawn(bool isWhite, GameData field, int row, int col)
             : base(isWhite, field, row, col)
         {
-
+            firstStep = true;
         }
 
         public override Bitmap GetSprite()
@@ -53,6 +55,8 @@ namespace chess
             int stepForward = white ? -1 : 1;
             if (row + stepForward >= 0 && row + stepForward < 8)
             {
+                if (field[row + 2 * stepForward, col] == null && firstStep) //первый раз вперед
+                    result.Add(new Point(col, row + 2 * stepForward));
                 if (field[row + stepForward, col] == null) //вперед
                     result.Add(new Point(col, row + stepForward));
                 if (col - 1 >= 0 && field[row + stepForward, col - 1] != null && field[row + stepForward, col - 1].white != white)//вперед и влево
@@ -63,6 +67,11 @@ namespace chess
             }
 
             return result;
+        }
+        public override void moveTo(int row, int col)
+        {
+            base.moveTo(row, col);
+            firstStep = false;
         }
     }
     
