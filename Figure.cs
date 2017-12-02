@@ -68,13 +68,13 @@ namespace chess
 
             return result;
         }
-        public override void moveTo(int row, int col)
+        public override void moveTo(int row, int col) //после первого хода
         {
             base.moveTo(row, col);
             firstStep = false;
         }
     }
-    
+
     class FigureRook : Figure //Ладья
     {
         public FigureRook(bool isWhite, GameData field, int row, int col)
@@ -85,7 +85,10 @@ namespace chess
 
         public override Bitmap GetSprite()
         {
-            return null;
+            if (white)
+                return new Bitmap(Image.FromFile(@"..\..\figure_sprites\whiteRook.png"));
+            else
+                return new Bitmap(Image.FromFile(@"..\..\figure_sprites\blackRook.png"));
         }
 
         public override List<Point> GetPosibleSteps()
@@ -105,7 +108,10 @@ namespace chess
 
         public override Bitmap GetSprite()
         {
-            return null;
+            if (white)
+                return new Bitmap(Image.FromFile(@"..\..\figure_sprites\whiteQueen.png"));
+            else
+                return new Bitmap(Image.FromFile(@"..\..\figure_sprites\blackQueen.png"));
         }
 
         public override List<Point> GetPosibleSteps()
@@ -124,12 +130,65 @@ namespace chess
 
         public override Bitmap GetSprite()
         {
-            return null;
+            if (white)
+                return new Bitmap(Image.FromFile(@"..\..\figure_sprites\whiteKnight.png"));
+            else
+                return new Bitmap(Image.FromFile(@"..\..\figure_sprites\blackKnight.png"));
         }
 
         public override List<Point> GetPosibleSteps()
         {
-            return null;
+            List<Point> result = new List<Point>();
+
+            if (col + 2 < 8) // шаги вправо: вверх и вниз
+            {
+                if (field[row + 1, col + 2] == null)
+                    result.Add(new Point(col + 2, row + 1));
+                if (field[row - 1, col + 2] == null)
+                    result.Add(new Point(col + 2, row - 1));
+
+                if (field[row + 1, col + 2] != null && field[row + 1, col + 2].white != white)
+                    result.Add(new Point(col + 2, row + 1));
+                if (field[row - 1, col + 2] != null && field[row - 1, col + 2].white != white)
+                    result.Add(new Point(col + 2, row - 1));
+            }
+            if (col - 2 >= 0) // шаги влево: вверх и вниз
+            {
+                if (field[row + 1, col - 2] == null)
+                    result.Add(new Point(col - 2, row + 1));
+                if (field[row - 1, col - 2] == null)
+                    result.Add(new Point(col - 2, row - 1));
+
+                if (field[row + 1, col - 2] != null && field[row + 1, col - 2].white != white)
+                    result.Add(new Point(col - 2, row + 1));
+                if (field[row - 1, col - 2] != null && field[row - 1, col - 2].white != white)
+                    result.Add(new Point(col - 2, row - 1));
+            }
+            if (row + 2 < 8) // шаги вверх: вправо и влево
+            {
+                if (field[row + 2, col + 1] == null)
+                    result.Add(new Point(col + 1, row + 2));
+                if (field[row + 2, col - 1] == null)
+                    result.Add(new Point(col - 1, row + 2));
+
+                if (field[row + 2, col + 1] != null && field[row + 2, col + 1].white != white)
+                    result.Add(new Point(col + 1, row + 2));
+                if (field[row + 2, col - 1] != null && field[row + 2, col - 1].white != white)
+                    result.Add(new Point(col - 1, row + 2));
+            }
+            if (row - 2 >= 0) // шаги вниз: вправо и влево
+            {
+                if (field[row - 2, col + 1] == null)
+                    result.Add(new Point(col + 1, row - 2));
+                if (field[row - 2, col - 1] == null)
+                    result.Add(new Point(col - 1, row - 2));
+
+                if (field[row - 2, col + 1] != null && field[row - 2, col + 1].white != white)
+                    result.Add(new Point(col + 1, row - 2));
+                if (field[row - 2, col - 1] != null && field[row - 2, col - 1].white != white)
+                    result.Add(new Point(col - 1, row - 2));
+            }
+            return result;
         }
     }
 
@@ -143,12 +202,71 @@ namespace chess
 
         public override Bitmap GetSprite()
         {
-            return null;
+            if (white)
+                return new Bitmap(Image.FromFile(@"..\..\figure_sprites\whiteKing.png"));
+            else
+                return new Bitmap(Image.FromFile(@"..\..\figure_sprites\blackKing.png"));
         }
 
         public override List<Point> GetPosibleSteps()
         {
-            return null;
+            List<Point> result = new List<Point>();
+            //int[,] f = new int { { 0, 1 }, { 0, -1 }, { 1, 0 }, { -1, 0 } };
+
+            // шаги вверх
+            if (row + 1 < 8)
+            {
+                if (field[row + 1, col] == null)
+                    result.Add(new Point(col, row + 1));
+                if (col + 1 < 8 && field[row + 1, col + 1] == null)
+                    result.Add(new Point(col + 1, row + 1));
+                if (col - 1 >= 0 && field[row + 1, col - 1] == null)
+                    result.Add(new Point(col - 1, row + 1));
+
+                if (field[row + 1, col] != null && field[row + 1, col].white != white)
+                    result.Add(new Point(col, row + 1));
+                if (col + 1 < 8 && field[row + 1, col + 1] != null && field[row + 1, col + 1].white != white)
+                    result.Add(new Point(col + 1, row + 1));
+                if (col - 1 >= 0 && field[row + 1, col - 1] != null && field[row + 1, col - 1].white != white)
+                    result.Add(new Point(col - 1, row + 1));
+            }
+            // шаг вправо
+            if (col + 1 < 8)
+            {
+                if (field[row, col + 1] == null)
+                    result.Add(new Point(col + 1, row));
+
+                if (field[row, col + 1] != null && field[row, col + 1].white != white)
+                    result.Add(new Point(col + 1, row));
+            }
+            // шаг влево
+            if (col - 1 >= 0)
+            { 
+                if (field[row, col - 1] == null)
+                    result.Add(new Point(col - 1, row));
+                
+                if (field[row, col - 1] != null && field[row, col - 1].white != white)
+                    result.Add(new Point(col - 1, row));
+            }
+            // шаги вниз
+            if (row - 1 >= 0)
+            {
+                if (field[row - 1, col] == null)
+                    result.Add(new Point(col, row - 1));
+                if (col + 1 < 8 && field[row - 1, col + 1] == null)
+                    result.Add(new Point(col + 1, row - 1));
+                if (col - 1 >= 0 && field[row - 1, col - 1] == null)
+                    result.Add(new Point(col - 1, row - 1));
+
+                if (field[row - 1, col] != null && field[row - 1, col].white != white)
+                    result.Add(new Point(col, row - 1));
+                if (col + 1 < 8 && field[row - 1, col + 1] != null && field[row - 1, col + 1].white != white)
+                    result.Add(new Point(col + 1, row - 1));
+                if (col - 1 >= 0 && field[row - 1, col - 1] != null && field[row - 1, col - 1].white != white)
+                    result.Add(new Point(col - 1, row - 1));
+            }
+
+            return result;
         }
     }
 
@@ -162,7 +280,10 @@ namespace chess
 
         public override Bitmap GetSprite()
         {
-            return null;
+            if (white)
+                return new Bitmap(Image.FromFile(@"..\..\figure_sprites\whiteBishop.png"));
+            else
+                return new Bitmap(Image.FromFile(@"..\..\figure_sprites\blackBishop.png"));
         }
 
         public override List<Point> GetPosibleSteps()
@@ -170,7 +291,7 @@ namespace chess
             return null;
         }
     }
-    
+
 
 
 }

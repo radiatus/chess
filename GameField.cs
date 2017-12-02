@@ -11,8 +11,8 @@ namespace chess
         
         private GameData figures; // все фигурки
         private int size;
-        private int indentX;
-        private int indentY;
+        private int indentX; // отступ слева
+        private int indentY; // отступ сверху
         private int cellSize;
         private int activeFigureRow;
         private int activeFigureCol;
@@ -26,8 +26,8 @@ namespace chess
 
         public void Draw(Graphics canvas)
         {
-            DrawField(canvas, cellSize, indentX, indentY); //рисуем само поле
-            DrawFigures(canvas, cellSize, indentX, indentY); //рисуем все фигурки на нем
+            DrawField(canvas); //рисуем само поле
+            DrawFigures(canvas); //рисуем все фигурки на нем
 
             if (highlightPoints != null)
                 DrawHighLights(canvas); //рисуем подсвеченые клетки
@@ -70,7 +70,7 @@ namespace chess
             highlightPoints = null;
         }
 
-        private void DrawField(Graphics canvas, int cellSize, int indentX, int indentY) //рисуем само поле
+        private void DrawField(Graphics canvas) //рисуем само поле
         {
             Brush black = new SolidBrush(Color.Brown); //Chocolate
             Brush white = new SolidBrush(Color.Gold);
@@ -82,7 +82,7 @@ namespace chess
 
         }
 
-        private void DrawFigures(Graphics canvas, int cellSize, int indentX, int indentY) //рисуем все фигурки на нем
+        private void DrawFigures(Graphics canvas) //рисуем все фигурки на нем
         {
             for (int row = 0; row < 8; row++)
             {
@@ -102,10 +102,10 @@ namespace chess
             Pen pen = new Pen(Color.Blue, 5);
             int row;
             int col;
-            for (int cont = 0; cont < highlightPoints.Count; cont++)
+            for (int count = 0; count < highlightPoints.Count; count++)
             {
-                col = highlightPoints[cont].X;
-                row = highlightPoints[cont].Y;
+                col = highlightPoints[count].X;
+                row = highlightPoints[count].Y;
 
                 if (figures[row, col] != null)
                     canvas.DrawRectangle(pen, indentX + col * cellSize + 2, indentY + row * cellSize + 2, cellSize - 4, cellSize - 4);

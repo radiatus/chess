@@ -11,7 +11,7 @@ namespace chess
         private int fromX;
         private int fromY;
         private bool figureChosen;
-        public event MoveDelegate moveMade;
+        public event MoveDelegate moveMade; // сигнал
 
 
         public FormControl(GameData data, bool isWhite)

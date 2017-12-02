@@ -13,7 +13,7 @@ namespace chess
             GameField field = new GameField(data, width, height);
             Player white = new FormControl(data, true);
             Player black = new FormControl(data, false);
-            Game game = new Game(data, field, white, black); //надеюсь тут боле менее понятно
+            Game game = new Game(data, field, white, black); //надеюсь тут более менее понятно
             return game;
         }
     }
