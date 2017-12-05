@@ -16,7 +16,7 @@ namespace chess
         private int cellSize;
         private int activeFigureRow;
         private int activeFigureCol;
-        private List<Point> highlightPoints; //список фигурок кторые надо подсветить
+        private List<Point> highlightPoints; //список фигурок которые надо подсветить
 
         public GameField(GameData data, int width, int height)
         {
