@@ -96,7 +96,7 @@ namespace chess
             if (CheckMove(fromX, fromY, toX, toY)) // ход корректен
             {
                 // Сделать тут проверку на убийство?
-                Figure tmp = data[fromY, fromX]; // сохраняем перемещаемую фигуру
+                Figures.Figure tmp = data[fromY, fromX]; // сохраняем перемещаемую фигуру
                 tmp.moveTo(toY, toX); //меняем ее координаты
                 data[fromY, fromX] = null; // стираем ее на старом месте
                 data[toY, toX] = tmp; // ставим на новое

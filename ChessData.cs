@@ -7,12 +7,12 @@ namespace chess
 {
     class GameData //Вся информация о поле
     {
-        private Figure[,] figures; //массив фигурок
-        private List<Figure> whiteDead; //список мертвых БЕЛЫХ фигурок
-        private List<Figure> blackDead; //список мертвых ЧЕРНЫХ фигурок
+        private Figures.Figure[,] figures; //массив фигурок
+        private List<Figures.Figure> whiteDead; //список мертвых БЕЛЫХ фигурок
+        private List<Figures.Figure> blackDead; //список мертвых ЧЕРНЫХ фигурок
 
 
-        public Figure this[int row, int col]
+        public Figures.Figure this[int row, int col]
         {
             get
             {
@@ -45,50 +45,50 @@ namespace chess
 
         private void InitFigures() //стандартная инициализация
         {
-            figures = new Figure[8, 8];
+            figures = new Figures.Figure[8, 8];
 
 
-            //for (int i = 0; i < 8; i++)
-            //{
-            //    //Пешки
-            //    figures[1, i] = new FigurePawn(false, this, 1, i);
-            //    figures[6, i] = new FigurePawn(true, this, 6, i);
-            //}
+            for (int i = 0; i < 8; i++)
+            {
+                //Пешки
+                figures[1, i] = new Figures.FigurePawn(false, this, 1, i);
+                figures[6, i] = new Figures.FigurePawn(true, this, 6, i);
+            }
 
-            ////Ладьи
-            //figures[0, 0] = new FigureRook(false, this, 0, 0);
-            //figures[0, 7] = new FigureRook(false, this, 0, 7);
-            //figures[7, 0] = new FigureRook(true, this, 7, 0);
-            //figures[7, 7] = new FigureRook(true, this, 7, 7);
+            //Ладьи
+            figures[0, 0] = new Figures.FigureRook(false, this, 0, 0);
+            figures[0, 7] = new Figures.FigureRook(false, this, 0, 7);
+            figures[7, 0] = new Figures.FigureRook(true, this, 7, 0);
+            figures[7, 7] = new Figures.FigureRook(true, this, 7, 7);
 
-            ////Кони
-            //figures[0, 1] = new FigureKnight(false, this, 0, 1);
-            //figures[0, 6] = new FigureKnight(false, this, 0, 6);
-            //figures[7, 1] = new FigureKnight(true, this, 7, 1);
-            //figures[7, 6] = new FigureKnight(true, this, 7, 6);
+            //Кони
+            figures[0, 1] = new Figures.FigureKnight(false, this, 0, 1);
+            figures[0, 6] = new Figures.FigureKnight(false, this, 0, 6);
+            figures[7, 1] = new Figures.FigureKnight(true, this, 7, 1);
+            figures[7, 6] = new Figures.FigureKnight(true, this, 7, 6);
 
             //Слоны
-            figures[0, 2] = new FigureBishop(false, this, 0, 2);
-            figures[0, 5] = new FigureBishop(false, this, 0, 5);
-            figures[7, 2] = new FigureBishop(true, this, 7, 2);
-            figures[7, 5] = new FigureBishop(true, this, 7, 5);
+            figures[0, 2] = new Figures.FigureBishop(false, this, 0, 2);
+            figures[0, 5] = new Figures.FigureBishop(false, this, 0, 5);
+            figures[7, 2] = new Figures.FigureBishop(true, this, 7, 2);
+            figures[7, 5] = new Figures.FigureBishop(true, this, 7, 5);
 
-            ////Ферзи
-            //figures[0, 3] = new FigureQueen(false, this, 0, 3);
-            //figures[7, 3] = new FigureQueen(true, this, 7, 3);
+            //Ферзи
+            figures[0, 3] = new Figures.FigureQueen(false, this, 0, 3);
+            figures[7, 3] = new Figures.FigureQueen(true, this, 7, 3);
 
-            ////Короли
-            //figures[0, 4] = new FigureKing(false, this, 0, 4);
-            //figures[7, 4] = new FigureKing(true, this, 7, 4);
-
-
+            //Короли
+            figures[0, 4] = new Figures.FigureKing(false, this, 0, 4);
+            figures[7, 4] = new Figures.FigureKing(true, this, 7, 4);
 
 
 
-            figures[4, 3] = new FigureKnight(true, this, 4, 3);
 
-            figures[4, 4] = new FigureRook(false, this, 4, 4);
-            figures[3, 3] = new FigureRook(true, this, 3, 3);
+
+            figures[4, 3] = new Figures.FigureKnight(true, this, 4, 3);
+
+            figures[4, 4] = new Figures.FigureRook(false, this, 4, 4);
+            figures[3, 3] = new Figures.FigureRook(true, this, 3, 3);
         }
 
 
