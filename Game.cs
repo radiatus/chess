@@ -144,5 +144,48 @@ namespace chess
             PlayerMoved(emitBlackMove, emitWhiteMove, fromX, fromY, toX, toY, wasByKill);
         }
 
+        public GameMemento SaveGame()
+        {
+            return new GameMemento(data, field, playerWhite, playerBlack, playerWhiteFormControl, playerBlackFormControl);
+        }
+    }
+
+    class GameMemento
+    {
+        public GameData Data { get; private set; }
+        public GameField Field { get; private set; }
+        public Player PlayerWhite { get; private set; }
+        public Player PlayerBlack { get; private set; }
+        public FormControl PlayerWhiteFormControl { get; private set; }
+        public FormControl PlayerBlackFormControl { get; private set; }
+
+        public GameMemento(GameData data, GameField field, Player playerWhite, Player playerBlack, FormControl playerWhiteFormControl, FormControl playerBlackFormControl)
+        {
+            this.Data = data;
+            this.Field = field;
+            this.PlayerWhite = playerWhite;
+            this.PlayerBlack = playerBlack;
+            this.PlayerWhiteFormControl = playerWhiteFormControl;
+            this.PlayerBlackFormControl = playerBlackFormControl;
+        }
+    } 
+
+    class GameHistory
+    {
+        public Stack<GameMemento> History { get; private set; }
+        public GameHistory()
+        {
+            History = new Stack<GameMemento>();
+        }
     }
 }
+
+/*
+ private bool isWhitTurn;
+        private GameData data;
+        private GameField field;
+        private Player playerWhite;
+        private Player playerBlack;
+        private FormControl playerWhiteFormControl;
+        private FormControl playerBlackFormControl;
+ */

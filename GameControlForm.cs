@@ -13,6 +13,7 @@ namespace chess
     {
 
         Game myGame;
+        GameHistory gameHistory;
         public GameControlForm()
         {
             InitializeComponent();
@@ -21,6 +22,7 @@ namespace chess
         private void button1_Click(object sender, EventArgs e)
         {
             myGame = ChessFabrik.TwoPlayersGame(pictureBox1.Width, pictureBox1.Height); //создаем новую игру
+            gameHistory = new GameHistory();
             pictureBox1.Refresh();
         }
 
@@ -48,6 +50,7 @@ namespace chess
             if (myGame != null)
             {
                 myGame.Click(e.X, e.Y); //клик по полю
+                gameHistory.History.Push(myGame.SaveGame());
                 pictureBox1.Refresh();
             }
         }

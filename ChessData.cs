@@ -68,35 +68,35 @@ namespace chess
             for (int i = 0; i < 8; i++)
             {
                 //Пешки
-                figures[1, i] = new Figures.FigurePawn(false, this, 1, i);
-                figures[6, i] = new Figures.FigurePawn(true, this, 6, i);
+                this[1, i] = new Figures.FigurePawn(false, this, 1, i);
+                this[6, i] = new Figures.FigurePawn(true, this, 6, i);
             }
 
             //Ладьи
-            figures[0, 0] = new Figures.FigureRook(false, this, 0, 0);
-            figures[0, 7] = new Figures.FigureRook(false, this, 0, 7);
-            figures[7, 0] = new Figures.FigureRook(true, this, 7, 0);
-            figures[7, 7] = new Figures.FigureRook(true, this, 7, 7);
+            this[0, 0] = new Figures.FigureRook(false, this, 0, 0);
+            this[0, 7] = new Figures.FigureRook(false, this, 0, 7);
+            this[7, 0] = new Figures.FigureRook(true, this, 7, 0);
+            this[7, 7] = new Figures.FigureRook(true, this, 7, 7);
 
             //Кони
-            figures[0, 1] = new Figures.FigureKnight(false, this, 0, 1);
-            figures[0, 6] = new Figures.FigureKnight(false, this, 0, 6);
-            figures[7, 1] = new Figures.FigureKnight(true, this, 7, 1);
-            figures[7, 6] = new Figures.FigureKnight(true, this, 7, 6);
+            this[0, 1] = new Figures.FigureKnight(false, this, 0, 1);
+            this[0, 6] = new Figures.FigureKnight(false, this, 0, 6);
+            this[7, 1] = new Figures.FigureKnight(true, this, 7, 1);
+            this[7, 6] = new Figures.FigureKnight(true, this, 7, 6);
 
             //Слоны
-            figures[0, 2] = new Figures.FigureBishop(false, this, 0, 2);
-            figures[0, 5] = new Figures.FigureBishop(false, this, 0, 5);
-            figures[7, 2] = new Figures.FigureBishop(true, this, 7, 2);
-            figures[7, 5] = new Figures.FigureBishop(true, this, 7, 5);
+            this[0, 2] = new Figures.FigureBishop(false, this, 0, 2);
+            this[0, 5] = new Figures.FigureBishop(false, this, 0, 5);
+            this[7, 2] = new Figures.FigureBishop(true, this, 7, 2);
+            this[7, 5] = new Figures.FigureBishop(true, this, 7, 5);
 
             //Ферзи
-            figures[0, 3] = new Figures.FigureQueen(false, this, 0, 3);
-            figures[7, 3] = new Figures.FigureQueen(true, this, 7, 3);
+            this[0, 3] = new Figures.FigureQueen(false, this, 0, 3);
+            this[7, 3] = new Figures.FigureQueen(true, this, 7, 3);
 
             //Короли
-            figures[0, 4] = new Figures.FigureKing(false, this, 0, 4);
-            figures[7, 4] = new Figures.FigureKing(true, this, 7, 4);
+            this[0, 4] = new Figures.FigureKing(false, this, 0, 4);
+            this[7, 4] = new Figures.FigureKing(true, this, 7, 4);
 
 
 
