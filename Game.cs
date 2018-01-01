@@ -8,6 +8,8 @@ namespace chess
 {
     class Game //Фасад, все взаимодействие и связь всех частей
     {
+        private static Game instance;
+
         private bool isWhitTurn;
         private GameData data;
         private GameField field;
@@ -20,7 +22,7 @@ namespace chess
         MoveComand emitWhiteMove;
         MoveComand emitBlackMove;
 
-        public Game(GameData data, GameField field, Player playerWhite, Player playerBlack)
+        private Game(GameData data, GameField field, Player playerWhite, Player playerBlack)
         {
             this.data = data;
             this.field = field;
@@ -39,6 +41,13 @@ namespace chess
 
             isWhitTurn = true;
             emitWhiteMove();
+        }
+
+        public static Game getInstance(GameData data, GameField field, Player playerWhite, Player playerBlack)
+        {
+            if (instance == null)
+                instance = new Game(data, field, playerWhite, playerBlack);
+            return instance;
         }
 
         public string getSomeStuff() //временная функция для получения некоторой информации о поле
