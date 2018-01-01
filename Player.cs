@@ -11,7 +11,7 @@ namespace chess
         protected bool myTurn;
         protected GameData data;
 
-        public delegate void MoveDelegate(int fromX, int fromY, int toX, int toY);
+        public delegate void MoveDelegate(int fromX, int fromY, int toX, int toY, bool wasByKill);
 
         public Player(GameData data, bool isWhite)
         {

@@ -8,9 +8,26 @@ namespace chess
     class GameData //Вся информация о поле
     {
         private Figures.Figure[,] figures; //массив фигурок
-        private List<Figures.Figure> whiteDead; //список мертвых БЕЛЫХ фигурок
-        private List<Figures.Figure> blackDead; //список мертвых ЧЕРНЫХ фигурок
+        private List<Figures.Figure> whiteDead = new List<Figures.Figure>(); //список мертвых БЕЛЫХ фигурок
+        private List<Figures.Figure> blackDead = new List<Figures.Figure>(); //список мертвых ЧЕРНЫХ фигурок
 
+        public List<Figures.Figure> getDeadFig(bool white)
+        {
+            if (white)
+                return whiteDead;
+            return blackDead;
+        }
+
+        public void AddDeadFigure(int row, int col)
+        {
+            if (figures[row, col].white)
+                whiteDead.Add(figures[row, col]);
+
+            if (!figures[row, col].white)
+                blackDead.Add(figures[row, col]);
+
+            figures[row, col] = null;
+        }
 
         public Figures.Figure this[int row, int col]
         {

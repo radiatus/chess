@@ -58,6 +58,18 @@ namespace chess
             return s;
         }
 
+
+        public string getCountDead(bool white) //временная функция для получения некоторой информации о поле
+        {
+            string s = "";
+            if (white)
+                s += "white dead = " + data.getDeadFig(white).Count;
+            if (!white)
+                s += "black dead = " + data.getDeadFig(white).Count;
+
+            return s;
+        }
+
         public void Click(int x, int y) // щелчек по полю, в реальных координатах
         {
             Point p = field.getCord(x, y);
@@ -100,11 +112,14 @@ namespace chess
 
             return stepCorrect;
         }
-        private void PlayerMoved(MoveComand emitActiv, MoveComand emitPassiv, int fromX, int fromY, int toX, int toY)
+        private void PlayerMoved(MoveComand emitActiv, MoveComand emitPassiv, int fromX, int fromY, int toX, int toY, bool wasByKill)
         {
             if (CheckMove(fromX, fromY, toX, toY)) // ход корректен
             {
-                // Сделать тут проверку на убийство?
+                // Проверка на убийство
+                if (wasByKill) 
+                    data.AddDeadFigure(toY, toX);
+
                 Figures.Figure tmp = data[fromY, fromX]; // сохраняем перемещаемую фигуру
                 tmp.moveTo(toY, toX); //меняем ее координаты
                 data[fromY, fromX] = null; // стираем ее на старом месте
@@ -120,13 +135,13 @@ namespace chess
             }
         }
 
-        private void WhitePlayerMoved(int fromX, int fromY, int toX, int toY) // сигнал о том, что сходил белый
+        private void WhitePlayerMoved(int fromX, int fromY, int toX, int toY, bool wasByKill) // сигнал о том, что сходил белый
         {
-            PlayerMoved(emitWhiteMove, emitBlackMove, fromX, fromY, toX, toY);
+            PlayerMoved(emitWhiteMove, emitBlackMove, fromX, fromY, toX, toY, wasByKill);
         }
-        private void BlackPlayerMoved(int fromX, int fromY, int toX, int toY) // сигнал о том, что сходил черный
+        private void BlackPlayerMoved(int fromX, int fromY, int toX, int toY, bool wasByKill) // сигнал о том, что сходил черный
         {
-            PlayerMoved(emitBlackMove, emitWhiteMove, fromX, fromY, toX, toY);
+            PlayerMoved(emitBlackMove, emitWhiteMove, fromX, fromY, toX, toY, wasByKill);
         }
 
     }

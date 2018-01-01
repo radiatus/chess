@@ -30,6 +30,8 @@ namespace chess
             {
                 myGame.Draw(e.Graphics); // рисуем все поле
                 label1.Text = myGame.getSomeStuff(); // получаем некторую инфу об игре
+                label2.Text = myGame.getCountDead(true);
+                label3.Text = myGame.getCountDead(false);
             }
         }
 

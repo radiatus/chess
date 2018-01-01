@@ -54,10 +54,14 @@ namespace chess
                         break;
                     }
 
+                bool wasByKill = false;
+                if (data[row, col] != null && data[row, col].white != isWhite)
+                    wasByKill = true;
+
                 if (stepCorrect)
                 {
                     myTurn = false;
-                    moveMade(fromX, fromY, col, row); //отправляем сигнал, что ход сделан
+                    moveMade(fromX, fromY, col, row, wasByKill); //отправляем сигнал, что ход сделан
                 }
 
                 figureChosen = false;
