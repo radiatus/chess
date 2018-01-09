@@ -6,18 +6,19 @@ using System.Drawing;
 
 namespace chess
 {
-    class FormControl : Player // Реальный игрок
+    class FormControl : Player // Реальный игрок. это адаптер
     {
-        private int fromX;
-        private int fromY;
-        private bool figureChosen;
+        public int fromX;
+        public int fromY;
+        public bool figureChosen;
+        private IFormControlStrategy strategy;//стратегия, которая позволяет делать или не делать те или иные ходы (если королю поставлен шах)
         public event MoveDelegate moveMade; // сигнал
-
-
+        
         public FormControl(GameData data, bool isWhite)
             : base(data, isWhite)
         {
             figureChosen = false;
+            strategy = new FormControlNormalStrategy();
         }
         public override void setMoveFunc(MoveDelegate moveFunc)
         {
@@ -29,13 +30,24 @@ namespace chess
             myTurn = true; //пришел сигнал что ход наш
         }
 
-        public void Move(int row, int col) //клик по полю
+        override public void getStopMoveComand()
         {
+            myTurn = false; //пришел сигнал что ход не наш
+            figureChosen = false;
+        }
+        override public void setKingChecked()
+        {
+            isKingChecked = true;
+            strategy = new FormControlСheckToKingStrategy();
+        }
+        public void Move(int row, int col) //клик по полю
+        {                      
             if (!myTurn) //ничего не делаем, если не наш ход
-                return;
+                return; 
 
             if (figureChosen) //если фигурка уже выбрана
-            {                
+            {
+                
                 if(data[row, col] != null && data[row, col].white == isWhite) //клик по другой своей фигурке, выбираем ее
                 {
                     figureChosen = true;
@@ -43,25 +55,14 @@ namespace chess
                     fromY = row;
                     return;
                 }
-
-                //проверка на корректность хода
-                List<Point> stepList = data[fromY, fromX].GetPosibleSteps();                
-                bool stepCorrect = false;
-                for (int stepInd = 0; stepInd < stepList.Count; stepInd++)
-                    if (stepList[stepInd].X == col && stepList[stepInd].Y == row)
-                    {                        
-                        stepCorrect = true;
-                        break;
-                    }
-
-                bool wasByKill = false;
-                if (data[row, col] != null && data[row, col].white != isWhite)
-                    wasByKill = true;
-
-                if (stepCorrect)
+              
+                if (strategy.IsStepCorrect(this.data, fromX, fromY, col, row, isWhite))//проверка на корректность хода
                 {
+                    isKingChecked = false;
+                    strategy = new FormControlNormalStrategy();// если королю был объявлен шах, то ход был коректным и королю терь норм
+
                     myTurn = false;
-                    moveMade(fromX, fromY, col, row, wasByKill); //отправляем сигнал, что ход сделан
+                    moveMade(new Command(this.data, fromX, fromY, col, row)); //отправляем сигнал, что ход сделан
                 }
 
                 figureChosen = false;
@@ -75,8 +76,8 @@ namespace chess
                     fromY = row;
                 }
             }
+
+
         }
-
-
     }
 }

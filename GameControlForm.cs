@@ -54,5 +54,14 @@ namespace chess
                 pictureBox1.Refresh();
             }
         }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            if (myGame != null)
+            {
+                myGame.UndoStep();
+                pictureBox1.Refresh();
+            }
+        }
     }
 }

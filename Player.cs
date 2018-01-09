@@ -9,16 +9,25 @@ namespace chess
     {       
         protected bool isWhite;
         protected bool myTurn;
+        protected bool isKingChecked;
         protected GameData data;
 
-        public delegate void MoveDelegate(int fromX, int fromY, int toX, int toY, bool wasByKill);
+        public bool IsKingChecked
+        {
+            get { return isKingChecked; }
+        }
+
+        public delegate void MoveDelegate(Command command);
 
         public Player(GameData data, bool isWhite)
         {
             this.data = data;
             this.isWhite = isWhite;
+            isKingChecked = false;
         }
         abstract public void setMoveFunc(MoveDelegate moveFunc); //для привязывания функции к событию
         abstract public void getMoveComand(); //для получения события о том, что настало время ходить
+        abstract public void getStopMoveComand(); //для получения события о том, что ходить уже не надо
+        abstract public void setKingChecked();
     }
 }

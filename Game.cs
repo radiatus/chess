@@ -15,6 +15,7 @@ namespace chess
         private GameField field;
         private Player playerWhite;
         private Player playerBlack;
+        private List<Command> commandList;
         private FormControl playerWhiteFormControl;
         private FormControl playerBlackFormControl;
 
@@ -28,6 +29,7 @@ namespace chess
             this.field = field;
             this.playerWhite = playerWhite;
             this.playerBlack = playerBlack;
+            commandList = new List<Command>();
 
             this.playerWhite.setMoveFunc(WhitePlayerMoved); //привязываем функции к событиям
             this.playerBlack.setMoveFunc(BlackPlayerMoved);
@@ -37,7 +39,7 @@ namespace chess
             if (this.playerWhite is FormControl) //если БЕЛЫЙ это formControl            
                 playerWhiteFormControl = (FormControl)this.playerWhite; //приводя их к такому виду, мы избавляемся от множества проверок
             if (this.playerBlack is FormControl) //если ЧЕРНЫЙ это formControl            
-                playerBlackFormControl = (FormControl)this.playerBlack;            
+                playerBlackFormControl = (FormControl)this.playerBlack;
 
             isWhitTurn = true;
             emitWhiteMove();
@@ -58,6 +60,27 @@ namespace chess
             return s;
         }
 
+        public void UndoStep() // отмена хода // тут нужна серьезная дороотка
+        {
+
+            if (commandList.Count > 0)
+            {
+                commandList[commandList.Count - 1].Undo();
+                isWhitTurn = !isWhitTurn;
+
+                if (isWhitTurn)
+                {
+                    playerBlack.getStopMoveComand();
+                    emitWhiteMove();
+                }
+                else
+                {
+                    playerWhite.getStopMoveComand();
+                    emitBlackMove();
+                }                
+            }            
+
+        }
 
         public string getCountDead(bool white) //временная функция для получения некоторой информации о поле
         {
@@ -79,7 +102,7 @@ namespace chess
             field.ActivateFigure(p); //подсвечиваем
 
             if (playerWhiteFormControl != null && isWhitTurn) //если БЕЛЫЙ это formControl и сейчас его ход     
-                playerWhiteFormControl.Move(row, col);            
+                playerWhiteFormControl.Move(row, col);
             else if (playerBlackFormControl != null && !isWhitTurn) //если ЧЕРНЫЙ это formControl и сейчас его ход   
                 playerBlackFormControl.Move(row, col);
         }
@@ -94,40 +117,26 @@ namespace chess
             field.Draw(canvas);
         }
 
-        private bool CheckMove(int fromX, int fromY, int toX, int toY) // проверка на правильность хода 
+        private void PlayerMoved(MoveComand emitActiv, MoveComand emitPassiv, Command command)
         {
-            if (data[fromY, fromX] == null) //ход из пустой клетки
-                return false;
 
-            // ход соответствует одному из возможных ходов фигуры 
-            List<Point> stepList = data[fromY, fromX].GetPosibleSteps();
-            bool stepCorrect = false;
+            if (command.comandIsCorrect) // ход корректен
+            {
+                commandList.Add(command);
+                field.DisActivate(); // убираем подсветку
+                command.Execute();
+                isWhitTurn = !isWhitTurn; // меняем порядок шагов
 
-            for (int stepInd = 0; stepInd < stepList.Count; stepInd++)
-                if (stepList[stepInd].X == toX && stepList[stepInd].Y == toY)
+
+                if (data.IsKingChecked(isWhitTurn))
                 {
-                    stepCorrect = true;
-                    break;
+                    if (isWhitTurn)
+                        playerWhite.setKingChecked();
+                    else
+                        playerBlack.setKingChecked();
                 }
 
-            return stepCorrect;
-        }
-        private void PlayerMoved(MoveComand emitActiv, MoveComand emitPassiv, int fromX, int fromY, int toX, int toY, bool wasByKill)
-        {
-            if (CheckMove(fromX, fromY, toX, toY)) // ход корректен
-            {
-                // Проверка на убийство
-                if (wasByKill) 
-                    data.AddDeadFigure(toY, toX);
-
-                Figures.Figure tmp = data[fromY, fromX]; // сохраняем перемещаемую фигуру
-                tmp.moveTo(toY, toX); //меняем ее координаты
-                data[fromY, fromX] = null; // стираем ее на старом месте
-                data[toY, toX] = tmp; // ставим на новое
-                field.DisActivate(); // убираем подсветку
-
-                isWhitTurn = !isWhitTurn;
-                emitPassiv();//посылаем сигнал, что опять ходит тот, кто ждал
+                emitPassiv();//посылаем сигнал, что ходит тот, кто ждал
             }
             else // ход не удался
             {
@@ -135,13 +144,13 @@ namespace chess
             }
         }
 
-        private void WhitePlayerMoved(int fromX, int fromY, int toX, int toY, bool wasByKill) // сигнал о том, что сходил белый
+        private void WhitePlayerMoved(Command command) // сигнал о том, что сходил белый
         {
-            PlayerMoved(emitWhiteMove, emitBlackMove, fromX, fromY, toX, toY, wasByKill);
+            PlayerMoved(emitWhiteMove, emitBlackMove, command);
         }
-        private void BlackPlayerMoved(int fromX, int fromY, int toX, int toY, bool wasByKill) // сигнал о том, что сходил черный
+        private void BlackPlayerMoved(Command command) // сигнал о том, что сходил черный
         {
-            PlayerMoved(emitBlackMove, emitWhiteMove, fromX, fromY, toX, toY, wasByKill);
+            PlayerMoved(emitBlackMove, emitWhiteMove, command);
         }
 
         public GameMemento SaveGame()
@@ -168,7 +177,7 @@ namespace chess
             this.PlayerWhiteFormControl = playerWhiteFormControl;
             this.PlayerBlackFormControl = playerBlackFormControl;
         }
-    } 
+    }
 
     class GameHistory
     {

@@ -48,6 +48,7 @@
   <ItemGroup>
     <Compile Include="ChessData.cs" />
     <Compile Include="ChessFabrik.cs" />
+    <Compile Include="Command.cs" />
     <Compile Include="Figures\Figure.cs" />
     <Compile Include="Figures\FigureBishop.cs" />
     <Compile Include="Figures\FigureKing.cs" />
@@ -56,6 +57,7 @@
     <Compile Include="Figures\FigureQueen.cs" />
     <Compile Include="Figures\FigureRook.cs" />
     <Compile Include="FormControl.cs" />
+    <Compile Include="FormControlStrategy.cs" />
     <Compile Include="Game.cs" />
     <Compile Include="GameField.cs" />
     <Compile Include="GameControlForm.cs">
