@@ -77,7 +77,8 @@ namespace chess
                 {
                     playerWhite.getStopMoveComand();
                     emitBlackMove();
-                }                
+                }
+                commandList.RemoveAt(commandList.Count - 1);
             }            
 
         }
