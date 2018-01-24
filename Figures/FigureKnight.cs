@@ -16,10 +16,12 @@ namespace chess.Figures
 
         public override Bitmap GetSprite()
         {
+            Figures.Sprites sprites = new Sprites();
+            sprites.FillDictionary();
             if (white)
-                return new Bitmap(Image.FromFile(@"..\..\figure_sprites\whiteKnight.png"));
+                return sprites.dictionarySprites["whiteKnight"];
             else
-                return new Bitmap(Image.FromFile(@"..\..\figure_sprites\blackKnight.png"));
+                return sprites.dictionarySprites["blackKnight"];
         }
 
         public override List<Point> GetPosibleSteps()

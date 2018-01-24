@@ -16,10 +16,12 @@ namespace chess.Figures
 
         public override Bitmap GetSprite()
         {
+            Figures.Sprites sprites = new Sprites();
+            sprites.FillDictionary();
             if (white)
-                return new Bitmap(Image.FromFile(@"..\..\figure_sprites\whiteBishop.png"));
+                return sprites.dictionarySprites["whiteBishop"];
             else
-                return new Bitmap(Image.FromFile(@"..\..\figure_sprites\blackBishop.png"));
+                return sprites.dictionarySprites["blackBishop"];
         }
 
 

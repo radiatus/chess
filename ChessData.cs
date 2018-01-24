@@ -133,10 +133,10 @@ namespace chess
 
 
 
-            figures[4, 3] = new Figures.FigureKnight(true, this, 4, 3);
+            //figures[4, 3] = new Figures.FigureKnight(true, this, 4, 3);
 
-            figures[4, 4] = new Figures.FigureRook(false, this, 4, 4);
-            figures[3, 3] = new Figures.FigureRook(true, this, 3, 3);
+            //figures[4, 4] = new Figures.FigureRook(false, this, 4, 4);
+            //figures[3, 3] = new Figures.FigureRook(true, this, 3, 3);
         }
 
         private void AddDeadFigure(int row, int col)

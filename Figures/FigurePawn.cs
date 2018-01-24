@@ -15,13 +15,15 @@ namespace chess.Figures
         {
             firstStep = true;
         }
-
+        
         public override Bitmap GetSprite()
         {
+            Figures.Sprites sprites = new Sprites();
+            sprites.FillDictionary();
             if (white)
-                return new Bitmap(Image.FromFile(@"..\..\figure_sprites\whitePawn.png"));
+                return sprites.dictionarySprites["whitePawn"];
             else
-                return new Bitmap(Image.FromFile(@"..\..\figure_sprites\blackPawn.png"));
+                return sprites.dictionarySprites["blackPawn"];
         }
 
         public override List<Point> GetPosibleSteps()
