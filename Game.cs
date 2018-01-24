@@ -15,7 +15,7 @@ namespace chess
         private GameField field;
         private Player playerWhite;
         private Player playerBlack;
-        private List<Command> commandList;
+        private List<Command> gameHistory;
         private FormControl playerWhiteFormControl;
         private FormControl playerBlackFormControl;
 
@@ -29,7 +29,7 @@ namespace chess
             this.field = field;
             this.playerWhite = playerWhite;
             this.playerBlack = playerBlack;
-            commandList = new List<Command>();
+            gameHistory = new List<Command>();
 
             this.playerWhite.setMoveFunc(WhitePlayerMoved); //привязываем функции к событиям
             this.playerBlack.setMoveFunc(BlackPlayerMoved);
@@ -63,9 +63,9 @@ namespace chess
         public void UndoStep() // отмена хода // тут нужна серьезная дороотка
         {
 
-            if (commandList.Count > 0)
+            if (gameHistory.Count > 0)
             {
-                commandList[commandList.Count - 1].Undo();
+                gameHistory[gameHistory.Count - 1].Undo();
                 isWhitTurn = !isWhitTurn;
 
                 if (isWhitTurn)
@@ -78,7 +78,7 @@ namespace chess
                     playerWhite.getStopMoveComand();
                     emitBlackMove();
                 }
-                commandList.RemoveAt(commandList.Count - 1);
+                gameHistory.RemoveAt(gameHistory.Count - 1);
             }            
 
         }
@@ -123,7 +123,7 @@ namespace chess
 
             if (command.comandIsCorrect) // ход корректен
             {
-                commandList.Add(command);
+                gameHistory.Add(command);
                 field.DisActivate(); // убираем подсветку
                 command.Execute();
                 isWhitTurn = !isWhitTurn; // меняем порядок шагов
